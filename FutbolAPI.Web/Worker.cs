@@ -30,7 +30,7 @@ namespace FutbolAPI.Web
         public Task StartAsync(CancellationToken cancellationToken)
         {
             _timer = new Timer(DoWork, null, TimeSpan.Zero,
-            TimeSpan.FromMinutes(10));
+            TimeSpan.FromSeconds(5));
 
             return Task.CompletedTask;
         }
