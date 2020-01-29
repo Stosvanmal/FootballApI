@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace FutbolAPI.Business.Models
 {
-    public partial class Referee
+    public partial class Referee: IPerson
     {
         public Referee()
         {

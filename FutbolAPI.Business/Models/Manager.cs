@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace FutbolAPI.Business.Models
 {
-    public partial class Manager
+    public partial class Manager: IPerson
     {
         public Manager()
         {

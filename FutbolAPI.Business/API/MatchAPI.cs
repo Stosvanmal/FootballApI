@@ -16,7 +16,9 @@ namespace FutbolAPI.Business.API
         Task<bool> Delete(int id);
         Task<Match> GetById(int id);
         Task<IEnumerable<Match>> GetAll();
-        Task<IEnumerable<int>> GetMatchesNow();
+        Task<IEnumerable<int?>> GetMatchesNow();
+        Task<List<IPerson>> GetPlayerNotPlay(List<int?> idmatches);
+        Task<List<IPerson>> GetManagerNotPlay(List<int?> idmatches);
     }
     public class MatchAPI: IMatchAPI
     {
@@ -54,16 +56,32 @@ namespace FutbolAPI.Business.API
             return match;
         }
 
-        public async Task<IEnumerable<int>> GetMatchesNow()
+        public async Task<List<IPerson>> GetManagerNotPlay(List<int?> idmatches)
+        {
+            List<IPerson> LstManagers = new List<IPerson>();
+            LstManagers.AddRange(await this.rm.Match.GetByFilter(x => idmatches.Contains(x.Id) && ((x.IdAwayManagerNavigation.YellowCards % 5 == 0 || x.IdAwayManagerNavigation.RedCards == 1))).Select(x => x.IdAwayManagerNavigation).ToListAsync());
+            LstManagers.AddRange(await this.rm.Match.GetByFilter(x => idmatches.Contains(x.Id) && ((x.IdHomeManagerNavigation.YellowCards % 5 == 0 || x.IdHomeManagerNavigation.RedCards == 1))).Select(x => x.IdHomeManagerNavigation).ToListAsync());
+            return LstManagers;
+        }
+
+        public async Task<IEnumerable<int?>> GetMatchesNow()
         {
             DateTime ahora = DateTime.Now;
             DateTime cleanAhora = new DateTime(ahora.Year, ahora.Month, ahora.Day, ahora.Hour, ahora.Minute, 0);
             DateTime cincoAtras = cleanAhora.AddMinutes(-5);
 #if DEBUG
-            return new List<int> { 1, 2 };
+            return new List<int?> { 1, 2 };
 
 #endif
-            return await this.rm.Match.GetByFilter(x => x.Date == cincoAtras).Select(x => x.Id).ToListAsync();
+            return await this.rm.Match.GetByFilter(x => x.Date == cincoAtras).Select(x => (int?)x.Id).ToListAsync();
+        }
+
+        public async Task<List<IPerson>> GetPlayerNotPlay(List<int?> idmatches)
+        {
+            List<IPerson> LstPlayers = new List<IPerson>();
+            LstPlayers.AddRange(await this.rm.MatchPlayerAway.GetByFilter(x => idmatches.Contains(x.Idmatch) && ((x.IdplayerNavigation.YellowCards % 5 == 0) || (x.IdplayerNavigation.RedCards == 1))).Include(x=> x.IdplayerNavigation).Select(x=> x.IdplayerNavigation).ToListAsync());
+            LstPlayers.AddRange(await this.rm.MatchPlayerHome.GetByFilter(x => idmatches.Contains(x.Idmatch) && ((x.IdplayerNavigation.YellowCards % 5 == 0) || (x.IdplayerNavigation.RedCards == 1))).Include(x => x.IdplayerNavigation).Select(x => x.IdplayerNavigation).ToListAsync());
+            return LstPlayers;
         }
 
         public async Task<Match> Update(Match model)
