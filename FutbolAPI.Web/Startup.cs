@@ -42,8 +42,9 @@ namespace FutbolAPI.Web
             services.AddScoped<IRepositoryManager, RepositoryManager>();
             services.AddScoped<IManagerAPI, ManagerAPI>();
             services.AddScoped<IPlayerAPI, PlayerAPI>();
-            services.AddScoped<IMatchAPI, MatchAPI>();
+            services.AddScoped<IMatchAPI, MatchAPI>();            
             services.AddScoped<IRefereeAPI, RefereeAPI>();
+            services.AddHostedService<Worker>();
 
         }
 

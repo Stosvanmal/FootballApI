@@ -3,6 +3,7 @@ using FutbolAPI.Business.Repositories;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -15,6 +16,7 @@ namespace FutbolAPI.Business.API
         Task<bool> Delete(int id);
         Task<Match> GetById(int id);
         Task<IEnumerable<Match>> GetAll();
+        Task<IEnumerable<int>> GetMatchesNow();
     }
     public class MatchAPI: IMatchAPI
     {
@@ -50,6 +52,18 @@ namespace FutbolAPI.Business.API
             match.MatchPlayerAway = await this.rm.MatchPlayerAway.GetByFilter(x => x.Idmatch == id).ToListAsync();
             match.MatchPlayerHome = await this.rm.MatchPlayerHome.GetByFilter(x => x.Idmatch == id).ToListAsync();
             return match;
+        }
+
+        public async Task<IEnumerable<int>> GetMatchesNow()
+        {
+            DateTime ahora = DateTime.Now;
+            DateTime cleanAhora = new DateTime(ahora.Year, ahora.Month, ahora.Day, ahora.Hour, ahora.Minute, 0);
+            DateTime cincoAtras = cleanAhora.AddMinutes(-5);
+#if DEBUG
+            return new List<int> { 1, 2 };
+
+#endif
+            return await this.rm.Match.GetByFilter(x => x.Date == cincoAtras).Select(x => x.Id).ToListAsync();
         }
 
         public async Task<Match> Update(Match model)

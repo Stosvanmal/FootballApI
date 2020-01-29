@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29709.97
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FutbolAPI.Web", "FutbolAPI.Web\FutbolAPI.Web.csproj", "{F6BC1662-A521-41D8-9AFE-EF0AA475D966}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FutbolAPI.Web", "FutbolAPI.Web\FutbolAPI.Web.csproj", "{F6BC1662-A521-41D8-9AFE-EF0AA475D966}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FutbolAPI.Business", "FutbolAPI.Business\FutbolAPI.Business.csproj", "{D06EE70C-8B03-4876-BFFE-BB2C6B490FC4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FutbolAPI.Business", "FutbolAPI.Business\FutbolAPI.Business.csproj", "{D06EE70C-8B03-4876-BFFE-BB2C6B490FC4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
