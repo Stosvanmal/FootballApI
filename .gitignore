@@ -3,3 +3,9 @@
 ################################################################################
 
 /.vs
+/FutbolAPI.Business/bin/Debug/netcoreapp3.1
+/FutbolAPI.Business/obj
+/FutbolAPI.Web/bin/Debug/netcoreapp3.1
+/FutbolAPI.Web/obj/Debug/netcoreapp3.1
+/FutbolAPI.Web/obj
+/FutbolAPI.Web/Properties
